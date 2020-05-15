@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+
+    <integer-array name="google_colors">
+        <item>@color/default_color</item>
+        <!--<item>@android:color/holo_red_dark</item>-->
+        <!--<item>@android:color/holo_orange_dark</item>-->
+        <!--<item>@android:color/holo_green_dark</item>-->
+        <!--<item>@color/main_color</item>-->
+        <!--<item>@android:color/holo_orange_light</item>-->
+        <!--<item>@android:color/holo_red_light</item>-->
+    </integer-array>
+
+</resources>

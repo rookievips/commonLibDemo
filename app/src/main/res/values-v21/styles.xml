@@ -1,0 +1,13 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item><!--Appbar背景色-->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item><!--状态栏默认底色-->
+        <item name="colorAccent">@color/colorPrimary</item><!--控制各个控件被选中时的颜色-->
+
+        <item name = "android:colorControlHighlight">@color/gray</item><!--设置水波纹颜色-->
+    </style>
+
+</resources>

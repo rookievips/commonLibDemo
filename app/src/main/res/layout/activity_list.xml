@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chen.api.widgets.MultiStateView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/msv"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:msv_viewState="content"
+    tools:context=".ListActivity">
+
+    <com.chen.api.ptr.PtrMdFrameLayout
+        android:id="@+id/ptr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.chen.api.ptr.PtrMdFrameLayout>
+
+</com.chen.api.widgets.MultiStateView>

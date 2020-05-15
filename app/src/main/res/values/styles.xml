@@ -1,0 +1,21 @@
+<resources>
+
+<!-- Base application theme. -->
+<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <!-- Customize your theme here. -->
+    <item name="colorPrimary">@color/colorPrimary</item><!--Appbar背景色-->
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item><!--状态栏默认底色-->
+    <item name="colorAccent">@color/colorAccent</item><!--控制各个控件被选中时的颜色-->
+</style>
+
+<!--启动页主题-->
+<style name="FullTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:windowFullscreen">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowBackground">@drawable/bg_launch</item>
+</style>
+1.android:windowBackground可以同时改变启动activity时的短暂白背景和activity的背景,但如果在activity的布局文件中再次设置背景的话会覆盖主题(也就是这里)
+设置的背景
+2.android:windowIsTranslucent可以解决启动activity时的短暂白屏,但会导致点击应用icon时有明显的启动延迟
+
+</resources>

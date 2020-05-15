@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/title_bar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_47"
+    android:background="@color/white">
+
+    <!--水波纹点击效果1：android:background="?attr/selectableItemBackground"-->
+    <!--水波纹点击效果2：android:background="?attr/selectableItemBackgroundBorderless"-->
+
+    <ImageView
+        android:id="@+id/img_title_bar_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="5dp"
+        android:adjustViewBounds="true"
+        android:padding="10dp"
+        android:src="@drawable/icon_back_common_gray"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/txt_title_bar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:lines="1"
+        android:text="我是标题"
+        android:textColor="#313131"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/img_title_bar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_toEndOf="@id/txt_title_bar_title"
+        android:adjustViewBounds="true"
+        android:padding="5dp"
+        android:src="@drawable/icon_bottom_arrow"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/txt_title_bar_right_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="8dp"
+        android:padding="5dp"
+        android:text="编辑"
+        android:textColor="#626262"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/txt_title_bar_right_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/txt_title_bar_right_one"
+        android:padding="5dp"
+        android:text="问价"
+        android:textColor="#626262"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/img_title_bar_right_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="5dp"
+        android:adjustViewBounds="true"
+        android:padding="10dp"
+        android:src="@drawable/icon_back_common_gray"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/img_title_bar_right_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/img_title_bar_right_one"
+        android:adjustViewBounds="true"
+        android:padding="10dp"
+        android:src="@drawable/icon_back_common_gray"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/txt_elevation"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray"
+        android:visibility="visible" />
+
+</RelativeLayout>
+
+

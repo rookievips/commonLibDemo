@@ -1,0 +1,109 @@
+apply plugin: 'com.android.application'
+
+static def nowTime() {
+    return new Date().format("yyyy-MM-dd")
+}
+
+android {
+    signingConfigs {
+        release {
+            keyAlias 'epfresh'
+            keyPassword 'epfresh.com/zzq/wzh/2016'
+            storeFile file('D:/keystore/epfresh.jks')
+            storePassword 'epfresh.com/zzq/wzh/2016'
+        }
+
+        debug {
+            keyAlias 'epfresh'
+            keyPassword 'epfresh.com/zzq/wzh/2016'
+            storeFile file('D:/keystore/epfresh.jks')
+            storePassword 'epfresh.com/zzq/wzh/2016'
+        }
+    }
+
+    compileSdkVersion 28
+    flavorDimensions "version"/*定义产品风格同一维度*/
+    defaultConfig {
+        applicationId "com.chen.commonlib"
+        minSdkVersion 19
+        targetSdkVersion 28
+        multiDexEnabled true//方法数超过上限需进行分包
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    productFlavors {
+        product {
+            versionCode 100
+            versionName "1.0.0"
+            applicationId "com.chen.commonlib.release"
+            resValue "string", "app_name", "自建库release"
+//            buildConfigField "boolean", "IS_PRODUCT", "true"
+//            manifestPlaceholders = [
+//                    BAIDU_AK     : "bLn03xW8nECn0mGKvvBPvWG1xnnmoWji",
+//                    JPUSH_PKGNAME: "com.epfresh.express",
+//                    JPUSH_APPKEY : "7988f33e19303ba045098c76", //JPush上注册的包名对应的appkey
+//                    JPUSH_CHANNEL: "developer-default" //暂时填写默认值即可
+//                    APP_ICON: "@mipmap/icon_tuanticaigou"
+//            ]
+            dimension "version"
+        }
+
+        beta {
+            versionCode 100
+            versionName "1.0.0"
+            applicationId "com.chen.commonlib.beta"
+            resValue "string", "app_name", "自建库beta"
+//            buildConfigField "boolean", "IS_PRODUCT", "false"
+//            manifestPlaceholders = [
+//                    BAIDU_AK     : "5ElkBHI4lf3Fgg61kwxN4bR77nII22dT",
+//                    JPUSH_PKGNAME: "com.epfresh.express.beta",
+//                    JPUSH_APPKEY : "32ae34adb6ccdcf56e7685e5", //JPush上注册的包名对应的appkey
+//                    JPUSH_CHANNEL: "developer-default" //暂时填写默认值即可
+//            ]
+            dimension "version"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            // 输出apk名称为:app_V1.4.0_beta_2020-05-14.apk
+            def fileName = "app_V${variant.productFlavors[0].versionName}_${variant.productFlavors[0].name}_${nowTime()}.apk"
+            outputFileName = fileName
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation project(':api')
+    //ButterKnife
+    implementation "com.jakewharton:butterknife:${BUTTER_KNIFE}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${BUTTER_KNIFE_COMPILER}"
+}

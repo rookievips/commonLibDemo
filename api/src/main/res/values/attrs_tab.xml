@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CommonFragTabHost">
+
+        <!-- underline -->
+        <!-- 设置下划线颜色 -->
+        <attr name="tl_underline_color" format="color"/>
+        <!-- 设置下划线高度 -->
+        <attr name="tl_underline_height" format="dimension"/>
+        <!-- 设置下划线上方还是下方-->
+        <attr name="tl_underline_gravity" format="enum">
+            <enum name="TOP" value="48"/>
+            <enum name="BOTTOM" value="80"/>
+        </attr>
+
+        <!-- title -->
+        <attr name="tl_textSize" format="dimension"/>
+        <attr name="tl_textSelectedColor" format="color"/>
+        <attr name="tl_textUnselectedColor" format="color"/>
+        <attr name="tl_textBold" format="boolean"/>
+        <attr name="tl_textAllCaps" format="boolean"/>
+
+        <!-- icon -->
+        <!-- 设置icon宽度 -->
+        <attr name="tl_iconWidth" format="dimension"/>
+        <!-- 设置icon高度 -->
+        <attr name="tl_iconHeight" format="dimension"/>
+        <!-- 设置icon是否可见 -->
+        <attr name="tl_iconVisible" format="boolean"/>
+        <!-- 设置icon显示位置,对应Gravity中常量值 -->
+        <attr name="tl_iconGravity" format="enum">
+            <enum name="LEFT" value="3"/>
+            <enum name="TOP" value="48"/>
+            <enum name="RIGHT" value="5"/>
+            <enum name="BOTTOM" value="80"/>
+        </attr>
+        <!-- 设置icon与文字间距 -->
+        <attr name="tl_iconMargin" format="dimension"/>
+
+    </declare-styleable>
+</resources>
