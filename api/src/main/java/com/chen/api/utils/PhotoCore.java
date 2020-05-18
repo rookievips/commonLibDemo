@@ -20,7 +20,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.chen.api.R;
-import com.yalantis.ucrop.UCrop;
+import com.chen.api.ucrop.UCrop;
 
 import java.io.File;
 import java.io.FileDescriptor;

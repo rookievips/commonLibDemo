@@ -81,11 +81,11 @@ public class LoginActivity extends AbsActivity<LoginPresenterImp> implements Log
             }
         });
 
-//        if (!checkPermission(Manifest.permission.CAMERA) || !checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-//            requestPermission(1, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//        } else {
-//            ToastUtil.showShort("相机权限已打开");
-//        }
+        if (!checkPermission(Manifest.permission.CAMERA) || !checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            requestPermission(1, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        } else {
+            ToastUtil.showShort("相机权限已打开");
+        }
     }
 
 

@@ -199,7 +199,7 @@ public class MainActivity extends AbsActivity {
                 String version = responseEntity.getResponse().getVersion();
                 boolean hasNewVersion = responseEntity.getResponse().isHasNewVersion();
                 if (hasNewVersion) {
-                    AppUpdateHelper.newInstance().showUpdateNoticeDialog(mActivity,updates,url,version,true,R.mipmap.ic_launcher);
+//                    AppUpdateHelper.newInstance().showUpdateNoticeDialog(mActivity,updates,url,version,true,R.mipmap.ic_launcher);
                 }
 
             }
