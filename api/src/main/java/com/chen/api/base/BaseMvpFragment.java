@@ -8,9 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chen.api.utils.TUtil;
 
-public abstract class BaseFragment extends Fragment {
+
+public abstract class BaseMvpFragment<P extends BasePresenter> extends Fragment implements BaseView {
     protected View rootView;
+    protected P mPresenter;
     private boolean isVisibleToUser = false;//fragment是否可见
     private boolean isViewCreated = false;//View是否加载完成
 
@@ -23,6 +26,12 @@ public abstract class BaseFragment extends Fragment {
             initView(rootView);
         }
         initButterKnife(rootView);
+        try {
+            mPresenter = TUtil.getT(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        attachPresenter();
         return rootView;
     }
 
@@ -55,6 +64,11 @@ public abstract class BaseFragment extends Fragment {
     protected abstract int layoutResId();
 
     /**
+     * 简单页面无需mvp就不用管此方法即可,完美兼容各种实际场景的变通
+     */
+    protected abstract void attachPresenter();
+
+    /**
      * 初始化View
      */
     protected abstract void initView(View rootView);
@@ -66,10 +80,35 @@ public abstract class BaseFragment extends Fragment {
     protected abstract void afterCreated();
 
 
+
+    @Override
+    public void showErrorMsg(String msg) {
+        if (getActivity() == null)
+            return;
+        ((BaseMvpActivity)getActivity()).showErrorMsg(msg);
+    }
+
+    @Override
+    public void showLoading() {
+        if (getActivity() == null)
+            return;
+        ((BaseMvpActivity)getActivity()).showLoading();
+    }
+
+    @Override
+    public void hideLoading() {
+        if (getActivity() == null)
+            return;
+        ((BaseMvpActivity)getActivity()).hideLoading();
+    }
+
     @Override
     public void onDestroyView() {
         isViewCreated = false;
         isVisibleToUser = false;
+        if (mPresenter != null) {
+            mPresenter.detachView();
+        }
         if (rootView != null) {
             //Android不允许在容器中添加已有父容器的view
             ((ViewGroup) rootView.getParent()).removeView(rootView);

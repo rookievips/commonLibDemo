@@ -5,7 +5,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.chen.api.base.BaseWebActivity;
-import com.chen.commonlib.app.option.Constant;
+import com.chen.commonlib.app.Constant;
 
 public class CommonWebActivity extends BaseWebActivity {
     private String webUrl;
@@ -37,7 +37,7 @@ public class CommonWebActivity extends BaseWebActivity {
         return new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                //...
+                // TODO: 2020/5/19 可以在此处理交互逻辑...H5调Android
                 return super.shouldOverrideUrlLoading(view, url);
             }
         };
@@ -51,11 +51,5 @@ public class CommonWebActivity extends BaseWebActivity {
     @Override
     protected String initialUrl() {
         return webUrl;
-    }
-
-
-    @Override
-    public void invalidToken() {
-
     }
 }

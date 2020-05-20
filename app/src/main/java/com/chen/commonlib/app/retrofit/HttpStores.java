@@ -1,8 +1,8 @@
-package com.chen.commonlib.app.option.retrofit;
+package com.chen.commonlib.app.retrofit;
 
 
-import com.chen.commonlib.app.option.RequestEntity;
-import com.chen.commonlib.app.option.ResponseEntity;
+import com.chen.api.http.RequestEntity;
+import com.chen.api.http.ResponseEntity;
 
 import java.util.Map;
 
@@ -23,7 +23,7 @@ public interface HttpStores {
      * @param requestEntity
      * @return
      */
-    @POST("/api/supply/cgi")
+    @POST("/api/purchase")
     Observable<ResponseEntity<Map<String, Object>>> login(
             @Body RequestEntity requestEntity
     );

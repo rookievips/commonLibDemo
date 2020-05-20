@@ -5,11 +5,6 @@ import android.content.res.Resources;
 import android.support.multidex.MultiDexApplication;
 
 
-/**
- * Author: Chen
- * Date: 2020/5/9 9:48
- * Des:
- */
 public class BaseApplication extends MultiDexApplication {
 
     private static BaseApplication context;

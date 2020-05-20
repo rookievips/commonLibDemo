@@ -3,7 +3,7 @@ package com.chen.commonlib.h5;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.chen.commonlib.app.option.Constant;
+import com.chen.commonlib.app.Constant;
 
 
 public class H5Open {

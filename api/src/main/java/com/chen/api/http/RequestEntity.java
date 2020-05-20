@@ -1,4 +1,4 @@
-package com.chen.commonlib.app.option;
+package com.chen.api.http;
 
 import android.os.Build;
 
@@ -9,17 +9,11 @@ import com.google.gson.GsonBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Author: Chen
- * Date: 2019/7/23
- * Desc:
- */
 public class RequestEntity {
 
     private String cmd;
     private String appVersion = VersionUtil.versionName(BaseApplication.getBaseAppContext());
-    private String appDomain = "purchaser";
-    private HashMap<String, Object> deviceInfo;
+    private Map<String, Object> deviceInfo;
     private Map parameters = new HashMap();
 
     public RequestEntity() {
@@ -37,19 +31,11 @@ public class RequestEntity {
         this.appVersion = appVersion;
     }
 
-    public String getAppDomain() {
-        return appDomain;
-    }
-
-    public void setAppDomain(String appDomain) {
-        this.appDomain = appDomain;
-    }
-
-    public HashMap<String, Object> getDeviceInfo() {
+    public Map<String, Object> getDeviceInfo() {
         return deviceInfo;
     }
 
-    public void setDeviceInfo(HashMap<String, Object> deviceInfo) {
+    public void setDeviceInfo(Map<String, Object> deviceInfo) {
         this.deviceInfo = deviceInfo;
     }
 

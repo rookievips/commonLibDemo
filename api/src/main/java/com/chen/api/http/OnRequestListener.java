@@ -1,7 +1,4 @@
-package com.chen.commonlib.app.option.volley;
-
-
-import com.chen.commonlib.app.option.ResponseEntity;
+package com.chen.api.http;
 
 
 public interface OnRequestListener<T> {
@@ -16,7 +13,7 @@ public interface OnRequestListener<T> {
     void onFail(int failCode, String msg);
 
     //返回失败，在UI线程执行
-    void onResponseError(int failCode, String msg);
+    void onResponseError(int errorCode, String msg);
 
     //在UI线程执行
     void onResponse(ResponseEntity<T> responseEntity);

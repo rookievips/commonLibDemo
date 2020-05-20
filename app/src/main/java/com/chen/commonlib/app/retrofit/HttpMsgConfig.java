@@ -1,4 +1,4 @@
-package com.chen.api.http.retrofit;
+package com.chen.commonlib.app.retrofit;
 
 
 public interface HttpMsgConfig {

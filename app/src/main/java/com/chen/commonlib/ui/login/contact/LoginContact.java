@@ -3,7 +3,7 @@ package com.chen.commonlib.ui.login.contact;
 
 import com.chen.api.base.BasePresenter;
 import com.chen.api.base.BaseView;
-import com.chen.commonlib.app.option.RequestEntity;
+import com.chen.api.http.RequestEntity;
 
 import java.util.Map;
 

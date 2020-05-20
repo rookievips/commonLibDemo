@@ -18,11 +18,6 @@ public class TestFragment extends AbsFragment {
     }
 
     @Override
-    protected void attachPresenter() {
-
-    }
-
-    @Override
     protected void initView(View rootView) {
 
     }
@@ -31,6 +26,4 @@ public class TestFragment extends AbsFragment {
     protected void afterCreated() {
 
     }
-
-
 }

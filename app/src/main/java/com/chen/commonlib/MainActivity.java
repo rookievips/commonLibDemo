@@ -5,14 +5,13 @@ import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chen.api.helper.AppUpdateHelper;
+import com.chen.api.http.OnRequestListener;
+import com.chen.api.http.ResponseEntity;
 import com.chen.api.utils.ToastUtil;
 import com.chen.api.widgets.donutchart.Donut;
 import com.chen.api.widgets.donutchart.DonutChart;
 import com.chen.commonlib.app.AbsActivity;
-import com.chen.commonlib.app.option.RequestEntity;
-import com.chen.commonlib.app.option.ResponseEntity;
-import com.chen.commonlib.app.option.volley.OnRequestListener;
+import com.chen.commonlib.app.RequestEntityMap;
 import com.chen.commonlib.bean.VersionNew;
 import com.chen.commonlib.ui.login.view.LoginActivity;
 import com.google.gson.Gson;
@@ -23,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class MainActivity extends AbsActivity {
     private DonutChart donutChart;
@@ -37,17 +37,13 @@ public class MainActivity extends AbsActivity {
         return R.layout.activity_main;
     }
 
-    @Override
-    protected void attachPresenter() {
-
-    }
 
     @Override
     protected void initView() {
         findViewById(R.id.request).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showShort("喝杯茶吧");
+                ToastUtil.showShort("喝杯水吧");
 //                login();
             }
         });
@@ -57,20 +53,25 @@ public class MainActivity extends AbsActivity {
                 startActivity(new Intent(mActivity, LoginActivity.class));
             }
         });
+
     }
 
     @Override
     protected void afterCreated() {
         initDonutChart();
-        checkVersionUpdate();
+//        checkVersionUpdate(false);
     }
 
     private void login() {
-        RequestEntity requestEntity = new RequestEntity();
-        requestEntity.setCmd("wr-account/merchant/isAuthNeedBind");
-        requestEntity.putParameter("phone", "13900010003");
+        RequestEntityMap re = new RequestEntityMap();
+        re.setCmd("wr-account/account/login");
+        re.putParameter("clientSecret", "purchase-android-secret");
+        re.putParameter("scope", "purchase-android");
+        re.putParameter("clientId", "purchase-android");
+        re.putParameter("password", "123456");
+        re.putParameter("username", "18616896628");
 
-        request(requestEntity, true, new OnRequestListener<Map<String, Object>>() {
+        request(re, true, new OnRequestListener<Map<String, Object>>() {
 
             @Override
             public Map<String, Object> jsonToObj(String responseStr) {
@@ -89,7 +90,7 @@ public class MainActivity extends AbsActivity {
             }
 
             @Override
-            public void onResponseError(int failCode, String msg) {
+            public void onResponseError(int errorCode, String msg) {
 
             }
 
@@ -99,6 +100,33 @@ public class MainActivity extends AbsActivity {
                 System.out.println();
             }
         });
+
+//        request(re, true, new OnRequestListener<LoginBean>() {
+//            @Override
+//            public void onStart() {
+//
+//            }
+//
+//            @Override
+//            public LoginBean jsonToObj(String responseStr) {
+//                return new Gson().fromJson(responseStr,LoginBean.class);
+//            }
+//
+//            @Override
+//            public void onFail(int failCode, String msg) {
+//
+//            }
+//
+//            @Override
+//            public void onResponseError(int errorCode, String msg) {
+//
+//            }
+//
+//            @Override
+//            public void onResponse(ResponseEntity<LoginBean> responseEntity) {
+//                System.out.println();
+//            }
+//        });
     }
 
     private void initDonutChart() {
@@ -167,8 +195,8 @@ public class MainActivity extends AbsActivity {
     }
 
 
-    private void checkVersionUpdate() {
-        RequestEntity re = new RequestEntity();
+    private void checkVersionUpdate(boolean showTip) {
+        RequestEntityMap re = new RequestEntityMap();
         re.setCmd("wr-account/app/version");
         request(re, false, new OnRequestListener<VersionNew>() {
 
@@ -188,7 +216,7 @@ public class MainActivity extends AbsActivity {
             }
 
             @Override
-            public void onResponseError(int failCode, String msg) {
+            public void onResponseError(int errorCode, String msg) {
                 System.out.println();
             }
 
@@ -199,11 +227,19 @@ public class MainActivity extends AbsActivity {
                 String version = responseEntity.getResponse().getVersion();
                 boolean hasNewVersion = responseEntity.getResponse().isHasNewVersion();
                 if (hasNewVersion) {
-//                    AppUpdateHelper.newInstance().showUpdateNoticeDialog(mActivity,updates,url,version,true,R.mipmap.ic_launcher);
+//                    AppUpdateHelper.newInstance().showUpdateNoticeDialog(mActivity, updates, url, version, false, R.mipmap.ic_launcher);
+                } else {
+                    if (showTip)
+                        ToastUtil.showShort("当前已是最新版本");
                 }
 
             }
         });
+    }
+
+    @OnClick(R.id.checkUpdate)
+    public void checkUpdate() {
+        checkVersionUpdate(true);
     }
 
 

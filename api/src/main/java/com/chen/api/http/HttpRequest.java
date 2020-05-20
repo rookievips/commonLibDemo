@@ -1,4 +1,4 @@
-package com.chen.commonlib.app.option.volley;
+package com.chen.api.http;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -9,8 +9,6 @@ import com.chen.api.http.volley.Request;
 import com.chen.api.http.volley.Response;
 import com.chen.api.http.volley.VolleyError;
 import com.chen.api.http.volley.toolbox.HttpHeaderParser;
-import com.chen.commonlib.app.option.ResponseEntity;
-import com.chen.commonlib.app.option.ResponseError;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -103,14 +101,14 @@ public class HttpRequest<T> extends Request<ResponseEntity<T>> {
         if (networkResponse != null) {
             int statusCode = networkResponse.statusCode;
             if (statusCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                onResponseError(statusCode, "服务器无响应");
+                onFail(statusCode, "服务器无响应");
             } else if (statusCode == HttpURLConnection.HTTP_CLIENT_TIMEOUT || statusCode == HttpURLConnection.HTTP_GATEWAY_TIMEOUT) {
-                onResponseError(statusCode, "连接超时");
+                onFail(statusCode, "连接超时");
             } else {
-                onResponseError(statusCode, message);
+                onFail(statusCode, message);
             }
         } else {
-            onResponseError(ERROR_NET_FAULT, message);
+            onFail(ERROR_NET_FAULT, message);
         }
 
     }
@@ -157,7 +155,7 @@ public class HttpRequest<T> extends Request<ResponseEntity<T>> {
         return onRequestListener.jsonToObj(responseStr);
     }
 
-    //在UI线程执行
+    //在UI线程执行，请求发送前
     public void onStart() {
         onRequestListener.onStart();
     }
@@ -167,12 +165,12 @@ public class HttpRequest<T> extends Request<ResponseEntity<T>> {
         onRequestListener.onFail(failCode, msg);
     }
 
-    //返回失败，在UI线程执行
-    public void onResponseError(int failCode, String msg) {
-        onRequestListener.onResponseError(failCode, msg);
+    //返回成功，在UI线程执行，接收后台错误码和错误信息
+    public void onResponseError(int errorCode, String msg) {
+        onRequestListener.onResponseError(errorCode, msg);
     }
 
-    //在UI线程执行
+    //返回成功，在UI线程执行，接受数据体
     public void onResponse(ResponseEntity<T> response) {
         onRequestListener.onResponse(response);
     }

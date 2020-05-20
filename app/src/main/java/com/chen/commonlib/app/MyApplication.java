@@ -2,14 +2,9 @@ package com.chen.commonlib.app;
 
 
 import com.chen.api.base.BaseApplication;
-import com.chen.commonlib.app.option.volley.RequestManager;
+import com.chen.api.http.RequestManager;
 
 
-/**
- * Author: Chen
- * Date: 2019/11/28 17:32
- * Des:
- */
 public class MyApplication extends BaseApplication {
 
     @Override

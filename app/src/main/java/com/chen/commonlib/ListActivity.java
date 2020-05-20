@@ -14,9 +14,9 @@ import com.chen.api.ptr.PtrHandler;
 import com.chen.api.widgets.MultiStateView;
 import com.chen.commonlib.adapter.viewbinder.MessageViewBinder;
 import com.chen.commonlib.app.AbsActivity;
-import com.chen.commonlib.app.option.RequestEntity;
-import com.chen.commonlib.app.option.ResponseEntity;
-import com.chen.commonlib.app.option.volley.OnRequestListener;
+import com.chen.api.http.RequestEntity;
+import com.chen.api.http.ResponseEntity;
+import com.chen.api.http.OnRequestListener;
 import com.chen.commonlib.bean.MessageBean;
 import com.google.gson.Gson;
 
@@ -38,11 +38,6 @@ public class ListActivity extends AbsActivity {
     @Override
     protected int layoutResId() {
         return R.layout.activity_list;
-    }
-
-    @Override
-    protected void attachPresenter() {
-
     }
 
     @Override
@@ -141,7 +136,7 @@ public class ListActivity extends AbsActivity {
             }
 
             @Override
-            public void onResponseError(int failCode, String msg) {
+            public void onResponseError(int errorCode, String msg) {
                 ptr.refreshComplete();
                 msv.setViewState(MultiStateView.VIEW_STATE_CONTENT);
             }

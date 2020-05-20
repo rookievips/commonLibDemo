@@ -1,6 +1,6 @@
 package com.chen.commonlib.h5;
 
-import com.chen.commonlib.app.option.Constant;
+import com.chen.commonlib.app.Constant;
 
 /**
  * Author: Chen
@@ -9,5 +9,5 @@ import com.chen.commonlib.app.option.Constant;
  */
 public interface H5Links {
 
-    String HTML_CLASS_ROOM = Constant.HOST + "/supply/ep_splclass.html#_share_";
+    String HTML_CLASS_ROOM = Constant.HOST + "/m/purchase/ep_classroom.html#_share_";
 }

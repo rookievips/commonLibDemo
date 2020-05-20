@@ -2,7 +2,6 @@ package com.chen.api.base;
 
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,9 +26,6 @@ public abstract class BaseWebActivity extends BaseActivity {
 
     @Override
     protected void initButterKnife() {}
-
-    @Override
-    protected void attachPresenter() {}
 
     @Override
     protected void initView() {

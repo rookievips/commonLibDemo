@@ -10,22 +10,18 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 
-import com.chen.api.http.retrofit.HttpCallback;
+import com.chen.api.http.ResponseEntity;
 import com.chen.api.utils.FileUtil;
 import com.chen.api.utils.PhotoCore;
 import com.chen.api.utils.ToastUtil;
 import com.chen.commonlib.ListActivity;
-import com.chen.commonlib.app.AbsActivity;
-import com.chen.commonlib.app.option.Cmd;
-import com.chen.commonlib.app.option.Constant;
-import com.chen.commonlib.app.option.RequestEntity;
-import com.chen.commonlib.app.option.ResponseEntity;
-import com.chen.commonlib.app.option.retrofit.Http;
-import com.chen.api.http.retrofit.SubscriberCallback;
 import com.chen.commonlib.R;
-import com.chen.commonlib.h5.CommonWebActivity;
-import com.chen.commonlib.h5.H5Links;
-import com.chen.commonlib.h5.H5Open;
+import com.chen.commonlib.app.AbsMvpActivity;
+import com.chen.commonlib.app.Cmd;
+import com.chen.commonlib.app.RequestEntityMap;
+import com.chen.commonlib.app.retrofit.Http;
+import com.chen.commonlib.app.retrofit.HttpCallback;
+import com.chen.commonlib.app.retrofit.SubscriberCallback;
 import com.chen.commonlib.ui.login.contact.LoginContact;
 import com.chen.commonlib.ui.login.presenter.LoginPresenterImp;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -38,7 +34,7 @@ import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class LoginActivity extends AbsActivity<LoginPresenterImp> implements LoginContact.LoginView, PhotoCore.PhotoResult {
+public class LoginActivity extends AbsMvpActivity<LoginPresenterImp> implements LoginContact.LoginView, PhotoCore.PhotoResult {
     private PhotoCore photoCore;
     private String imgFilePath = FileUtil.getImageCacheDir() + File.separator + "avatar.jpg";
     @BindView(R.id.request)
@@ -64,10 +60,15 @@ public class LoginActivity extends AbsActivity<LoginPresenterImp> implements Log
         request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                RequestEntity requestEntity = new RequestEntity();
-//                requestEntity.setCmd(Cmd.CMD_LOGIN);
-//                requestEntity.putParameter("phone", "13900010003");
-//                mPresenter.login(requestEntity);
+//                RequestEntityMap re = new RequestEntityMap();
+//                re.setCmd(Cmd.CMD_LOGIN);
+//                re.putParameter("clientSecret","purchase-android-secret");
+//                re.putParameter("scope","purchase-android");
+//                re.putParameter("clientId","purchase-android");
+//                re.putParameter("password","123456");
+//                re.putParameter("username","18616896628");
+//                showLoading();
+//                mPresenter.login(re);
                 login();
             }
         });
@@ -96,29 +97,46 @@ public class LoginActivity extends AbsActivity<LoginPresenterImp> implements Log
 
 
     private void login() {
-        RequestEntity requestEntity = new RequestEntity();
-        requestEntity.setCmd(Cmd.CMD_LOGIN);
-        requestEntity.putParameter("phone", "13900010003");
+        RequestEntityMap re = new RequestEntityMap();
+        re.setCmd(Cmd.CMD_LOGIN);
+        re.putParameter("clientSecret","purchase-android-secret");
+        re.putParameter("scope","purchase-android");
+        re.putParameter("clientId","purchase-android");
+        re.putParameter("password","123456");
+        re.putParameter("username","18616896628");
         showLoading();
-        Http.getDefault().login(requestEntity)
+        Http.getDefault().login(re)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SubscriberCallback<>(new HttpCallback<ResponseEntity<Map<String, Object>>>() {
+
                     @Override
-                    public void onSuccess(ResponseEntity<Map<String, Object>> responseEntity) {
-                        Map<String, Object> response = responseEntity.getResponse();
+                    public void onResponse(ResponseEntity<Map<String, Object>> responseEntity) {
+                        System.out.println();
                     }
 
                     @Override
-                    public void onFailed(int code, String msg) {
+                    public void onResponseError(int errorCode, String msg) {
+
+                    }
+
+                    @Override
+                    public void onInvalidToken() {
+                        invalidToken();
+                    }
+
+                    @Override
+                    public void onFailed(int failCode, String msg) {
                         hideLoading();
                     }
+
 
                     @Override
                     public void onComplete() {
                         hideLoading();
                     }
                 }));
+
     }
 
     @Override

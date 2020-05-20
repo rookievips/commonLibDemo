@@ -1,4 +1,4 @@
-package com.chen.commonlib.app.option;
+package com.chen.commonlib.app;
 
 /**
  * Author: Chen
@@ -7,7 +7,7 @@ package com.chen.commonlib.app.option;
  */
 public interface Constant {
 
-//    String HOST = "https://dzapitest.epfresh.cn";
+//    String HOST = "https://apitest.dwqclz.com";
     String HOST = "https://apitest.epfresh.cn";
 //    String HOST = "http://58.48.169.107:28081";
 

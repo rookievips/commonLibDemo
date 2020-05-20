@@ -1,12 +1,12 @@
-package com.chen.commonlib.app.option.retrofit;
+package com.chen.commonlib.app.retrofit;
 
 import android.util.SparseArray;
 
 import com.chen.api.base.BaseApplication;
 import com.chen.api.helper.UserHelper;
-import com.chen.commonlib.app.option.Cmd;
-import com.chen.commonlib.app.option.Constant;
-import com.chen.commonlib.app.option.RequestEntity;
+import com.chen.commonlib.app.Cmd;
+import com.chen.commonlib.app.Constant;
+import com.chen.api.http.RequestEntity;
 import com.google.gson.Gson;
 
 import java.io.File;

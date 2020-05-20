@@ -1,4 +1,4 @@
-package com.chen.commonlib.app.option.volley;
+package com.chen.api.http;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,19 +11,17 @@ import com.chen.api.http.volley.toolbox.Volley;
 
 public class RequestManager {
 
-    public static final int TIMEOUT = 80 * 1000;
+    private static final int TIMEOUT = 80 * 1000;
 
-    public static final int RETRY_COUNT = 0;
+    private static final int RETRY_COUNT = 0;
 
     private static RequestManager instance;
     private RequestQueue mRequestQueue;
-    private boolean flag = false;
 
     private RequestManager() {}
 
     public void init(Context context) {
         mRequestQueue = Volley.newRequestQueue(context);
-        flag = true;
     }
 
     public static RequestManager getInstance() {
@@ -45,7 +43,7 @@ public class RequestManager {
 
     public void cancel(String tag) {
         Log.e("currentTag:", tag);
-        if (tag != null && flag)
+        if (tag != null)
         mRequestQueue.cancelAll(tag);
     }
 

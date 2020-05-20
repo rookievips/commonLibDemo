@@ -1,21 +1,16 @@
 package com.chen.commonlib.app;
 
 import com.chen.api.base.BaseActivity;
-import com.chen.api.base.BasePresenter;
-import com.chen.commonlib.app.option.Constant;
-import com.chen.commonlib.app.option.ResponseEntity;
-import com.chen.commonlib.app.option.volley.HttpRequest;
-import com.chen.commonlib.app.option.volley.OnRequestListener;
-import com.chen.commonlib.app.option.volley.RequestManager;
+import com.chen.api.utils.ToastUtil;
+import com.chen.api.http.ResponseEntity;
+import com.chen.api.http.HttpRequest;
+import com.chen.api.http.OnRequestListener;
+import com.chen.api.http.RequestManager;
 
 import butterknife.ButterKnife;
 
-/**
- * Author: Chen
- * Date: 2020/5/9 16:44
- * Des:
- */
-public abstract class AbsActivity<P extends BasePresenter> extends BaseActivity<P> {
+
+public abstract class AbsActivity extends BaseActivity {
 
 
     @Override
@@ -37,8 +32,8 @@ public abstract class AbsActivity<P extends BasePresenter> extends BaseActivity<
      */
     public <T> void request(Object data, String tag, boolean needLoading, OnRequestListener<T> onRequestListener) {
 //        String baseUrl = Constant.HOST + "/api/supply/cgi";
-//        String baseUrl = Constant.HOST + "/purchase/cgi?token=664eee9d8b4a4934bbe85ec1da423d23";
-        String baseUrl = Constant.HOST + "/api/purchase/cgi";
+//        String baseUrl = Constant.HOST + "/purchase/cgi?token=30e7f338e6994ad49c96f6f008113b4b";
+        String baseUrl = Constant.HOST + "/api/purchase";
 
 //        if (data instanceof RequestEntity) {
 //            String cmd = ((RequestEntity) data).getCmd();
@@ -57,6 +52,7 @@ public abstract class AbsActivity<P extends BasePresenter> extends BaseActivity<
 
             @Override
             public void onFail(int failCode, String msg) {
+                showErrorMsg(failCode + ":" + msg);
                 if (onRequestListener != null) {
                     hideLoading();
                     onRequestListener.onFail(failCode, msg);
@@ -64,10 +60,15 @@ public abstract class AbsActivity<P extends BasePresenter> extends BaseActivity<
             }
 
             @Override
-            public void onResponseError(int failCode, String msg) {
+            public void onResponseError(int errorCode, String msg) {
+                if (errorCode == 403) {
+                    invalidToken();
+                }else {
+                    showErrorMsg(errorCode + ":" + msg);
+                }
                 if (onRequestListener != null) {
                     hideLoading();
-                    onRequestListener.onResponseError(failCode, msg);
+                    onRequestListener.onResponseError(errorCode, msg);
                 }
             }
 
@@ -93,9 +94,9 @@ public abstract class AbsActivity<P extends BasePresenter> extends BaseActivity<
         RequestManager.getInstance().request(tag, httpRequest);
     }
 
-    @Override
     public void invalidToken() {
         // TODO: 2019/8/1 跳转登录页面
+        ToastUtil.showShort("跳转登录界面");
     }
 
     /**

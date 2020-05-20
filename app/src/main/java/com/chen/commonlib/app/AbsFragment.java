@@ -4,19 +4,14 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import com.chen.api.base.BaseFragment;
-import com.chen.api.base.BasePresenter;
-import com.chen.commonlib.app.option.volley.OnRequestListener;
-import com.chen.commonlib.app.option.volley.RequestManager;
+import com.chen.api.http.OnRequestListener;
+import com.chen.api.http.RequestManager;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-/**
- * Author: Chen
- * Date: 2020/5/9 16:51
- * Des:
- */
-public abstract class AbsFragment<P extends BasePresenter> extends BaseFragment<P> {
+
+public abstract class AbsFragment extends BaseFragment {
     private Unbinder unbinder;
 
     @Override
@@ -32,11 +27,6 @@ public abstract class AbsFragment<P extends BasePresenter> extends BaseFragment<
     protected AbsActivity getFragActivity() {
         FragmentActivity activity = getActivity();
         return activity != null ? (AbsActivity) activity : null;
-    }
-
-    @Override
-    public void invalidToken() {
-        getFragActivity().invalidToken();
     }
 
     /**

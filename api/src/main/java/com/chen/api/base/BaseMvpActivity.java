@@ -24,14 +24,16 @@ import android.widget.TextView;
 import com.chen.api.R;
 import com.chen.api.helper.ActManager;
 import com.chen.api.utils.StatusBarUtil;
+import com.chen.api.utils.TUtil;
 import com.chen.api.utils.ToastUtil;
 
 import java.util.Locale;
 
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseMvpActivity<P extends BasePresenter> extends AppCompatActivity implements BaseView {
     protected Activity mActivity;
     protected Context mContext;
+    protected P mPresenter;
     protected View mainView;
     private View titleBar;
     private ProgressDialog dialog;
@@ -42,10 +44,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mActivity = this;
         mContext = this;
+        try {
+            mPresenter = TUtil.getT(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         doBeforeSetContentView();
         setContentView(layoutResId());
         initButterKnife();
+        attachPresenter();
         initView();
         afterCreated();
     }
@@ -64,6 +72,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract int layoutResId();
 
     protected abstract void initButterKnife();
+
+    protected abstract void attachPresenter();
 
     /**
      * view初始化
@@ -115,7 +125,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param title
      * @return
      */
-    protected BaseActivity commonTitleBarStyle(String title) {
+    protected BaseMvpActivity commonTitleBarStyle(String title) {
         commonTitleBarStyle(
                 Color.parseColor("#FFFFFF"),
                 title,
@@ -132,7 +142,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param showBack
      * @param showElevation
      */
-    protected BaseActivity commonTitleBarStyle(int bgColor, String title, int titleColor, boolean showBack, boolean showElevation) {
+    protected BaseMvpActivity commonTitleBarStyle(int bgColor, String title, int titleColor, boolean showBack, boolean showElevation) {
 
         getTitleBar().setBackgroundColor(bgColor);//标题栏背景颜色
 
@@ -154,13 +164,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         return this;
     }
 
-    public BaseActivity imgLeftRes(int imgRes) {
+    public BaseMvpActivity imgLeftRes(int imgRes) {
         ((ImageView) getTitleBar().findViewById(R.id.img_title_bar_left)).setImageDrawable(ContextCompat.getDrawable(this, imgRes));
         return this;
     }
 
 
-    public BaseActivity imgTitleRes(int imgRes, View.OnClickListener onClickListener) {
+    public BaseMvpActivity imgTitleRes(int imgRes, View.OnClickListener onClickListener) {
         ((ImageView) getTitleBar().findViewById(R.id.img_title_bar_title)).setImageDrawable(ContextCompat.getDrawable(this, imgRes));
         getTitleBar().findViewById(R.id.img_title_bar_title).setVisibility(View.VISIBLE);
         getTitleBar().findViewById(R.id.img_title_bar_title).setOnClickListener(onClickListener);
@@ -168,28 +178,28 @@ public abstract class BaseActivity extends AppCompatActivity {
         return this;
     }
 
-    public BaseActivity txtRightOneContent(String content, View.OnClickListener onClickListener) {
+    public BaseMvpActivity txtRightOneContent(String content, View.OnClickListener onClickListener) {
         ((TextView) getTitleBar().findViewById(R.id.txt_title_bar_right_one)).setText(content);
         getTitleBar().findViewById(R.id.txt_title_bar_right_one).setVisibility(View.VISIBLE);
         getTitleBar().findViewById(R.id.txt_title_bar_right_one).setOnClickListener(onClickListener);
         return this;
     }
 
-    public BaseActivity txtRightTwoContent(String content, View.OnClickListener onClickListener) {
+    public BaseMvpActivity txtRightTwoContent(String content, View.OnClickListener onClickListener) {
         ((TextView) getTitleBar().findViewById(R.id.txt_title_bar_right_two)).setText(content);
         getTitleBar().findViewById(R.id.txt_title_bar_right_two).setVisibility(View.VISIBLE);
         getTitleBar().findViewById(R.id.txt_title_bar_right_two).setOnClickListener(onClickListener);
         return this;
     }
 
-    public BaseActivity imgRightOneRes(int imgRes, View.OnClickListener onClickListener) {
+    public BaseMvpActivity imgRightOneRes(int imgRes, View.OnClickListener onClickListener) {
         ((ImageView) getTitleBar().findViewById(R.id.img_title_bar_right_one)).setImageDrawable(ContextCompat.getDrawable(this, imgRes));
         getTitleBar().findViewById(R.id.img_title_bar_right_one).setVisibility(View.VISIBLE);
         getTitleBar().findViewById(R.id.img_title_bar_right_one).setOnClickListener(onClickListener);
         return this;
     }
 
-    public BaseActivity imgRightTwoRes(int imgRes, View.OnClickListener onClickListener) {
+    public BaseMvpActivity imgRightTwoRes(int imgRes, View.OnClickListener onClickListener) {
         ((ImageView) getTitleBar().findViewById(R.id.img_title_bar_right_two)).setImageDrawable(ContextCompat.getDrawable(this, imgRes));
         getTitleBar().findViewById(R.id.img_title_bar_right_two).setVisibility(View.VISIBLE);
         getTitleBar().findViewById(R.id.img_title_bar_right_two).setOnClickListener(onClickListener);
@@ -249,11 +259,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#008577"));
     }
 
-
+    @Override
     public void showErrorMsg(String msg) {
         ToastUtil.showShort(msg);
     }
 
+    @Override
     public void showLoading() {
         if (dialog == null) {
             dialog = new ProgressDialog(this);
@@ -261,6 +272,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    @Override
     public void hideLoading() {
         if (dialog != null) {
             dialog.dismiss();
@@ -272,6 +284,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         mContext = null;
         mActivity = null;
+        if (mPresenter != null) {
+            mPresenter.detachView();
+        }
         ActManager.getInstance().finishActivity(this);
         super.onDestroy();
     }
