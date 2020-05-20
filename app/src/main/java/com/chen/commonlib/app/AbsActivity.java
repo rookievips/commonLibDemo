@@ -95,7 +95,6 @@ public abstract class AbsActivity extends BaseActivity {
     }
 
     public void invalidToken() {
-        // TODO: 2019/8/1 跳转登录页面
         ToastUtil.showShort("跳转登录界面");
     }
 
