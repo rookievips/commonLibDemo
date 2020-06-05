@@ -43,7 +43,6 @@ public class CusGsonResponseBodyConverter<T> implements Converter<ResponseBody, 
             } catch (JSONException e) {
                 e.printStackTrace();
                 value.close();
-                throw new ServerException(HttpConstant.CODE_JSON, "can not to json obj.");
             }
             Iterator<String> iterator = mJSONObject.keys();
             String responseCodeName = "", responseMessageName = "";

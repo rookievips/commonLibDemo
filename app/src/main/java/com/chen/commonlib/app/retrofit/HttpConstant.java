@@ -27,8 +27,6 @@ public interface HttpConstant {
     int CODE_CONNECT_TIME_OUT = 1003;
 
 
-
-    int CODE_JSON = 100;
     int CODE_RESPONSE_SUCCESS = 200;
     int CODE_INVALID_TOKEN = 401;
 
