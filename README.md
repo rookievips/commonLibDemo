@@ -12,7 +12,10 @@
 
 #历史版本
 
-#latest version 2.0
+#latest version 3.0
+
+#v3.0
+升级RxJava2及部分优化改进
 
 #v2.0
 基类优化与网络框架优化
