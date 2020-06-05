@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:msv_viewState="content"
-    tools:context=".ListActivity">
+    tools:context=".ui.main.view.ListActivity">
 
     <com.chen.api.ptr.PtrMdFrameLayout
         android:id="@+id/ptr"

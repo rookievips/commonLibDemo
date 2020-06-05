@@ -5,7 +5,7 @@ apply plugin: 'maven'
 ext {// ext is a gradle closure allowing the declaration of global properties
     PUBLISH_GROUP_ID = "com.chen"
     PUBLISH_ARTIFACT_ID ="commonapi"
-    PUBLISH_VERSION = "2.0"
+    PUBLISH_VERSION = "3.0"
 }
 
 //3.maven-输出路径

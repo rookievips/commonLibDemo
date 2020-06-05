@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.chen.api.R;
 import com.chen.api.helper.ActManager;
+import com.chen.api.helper.DisposableManager;
 import com.chen.api.utils.StatusBarUtil;
 import com.chen.api.utils.TUtil;
 import com.chen.api.utils.ToastUtil;
@@ -287,6 +288,7 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends AppCompat
         if (mPresenter != null) {
             mPresenter.detachView();
         }
+        DisposableManager.getInstance().cancelAll();
         ActManager.getInstance().finishActivity(this);
         super.onDestroy();
     }

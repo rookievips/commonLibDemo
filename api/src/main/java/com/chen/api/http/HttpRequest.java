@@ -72,21 +72,21 @@ public class HttpRequest<T> extends Request<ResponseEntity<T>> {
     @Override
     protected void deliverResponse(ResponseEntity<T> responseEntity) {
         if (responseEntity != null) {
-            ResponseError error = responseEntity.getError();
-            if (error != null) {
-                int errorCode = error.getErrorCode();
-                String errorInfo = error.getErrorInfo();
-                if (TextUtils.isEmpty(errorInfo)) {
-                    errorInfo = "No errorInfo";
-                }
-                onResponseError(errorCode, errorInfo);
-            } else {
+            int statusCode = responseEntity.getStatusCode();
+            String message = responseEntity.getMessage();
+
+            if (statusCode == 200) {
                 T response = responseEntity.getResponse();
                 if (response == null) {
                     onFail(FAIL_DATA_EMPTY, "response obj back null");
                 } else {
                     onResponse(responseEntity);
                 }
+            }else {
+                if (TextUtils.isEmpty(message)) {
+                    message = "No errorInfo";
+                }
+                onResponseError(statusCode, message);
             }
         } else {
             onFail(FAIL_DATA_EMPTY, "response entity obj back null");

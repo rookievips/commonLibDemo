@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chen.api.helper.DisposableManager;
 import com.chen.api.utils.TUtil;
 
 
@@ -109,6 +110,7 @@ public abstract class BaseMvpFragment<P extends BasePresenter> extends Fragment 
         if (mPresenter != null) {
             mPresenter.detachView();
         }
+        DisposableManager.getInstance().cancelAll();
         if (rootView != null) {
             //Android不允许在容器中添加已有父容器的view
             ((ViewGroup) rootView.getParent()).removeView(rootView);

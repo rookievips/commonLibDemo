@@ -10,6 +10,7 @@ import com.chen.api.http.RequestEntity;
 public class RequestEntityMap extends RequestEntity {
 
     private String appDomain = "purchaser";
+    private String cityId = "31";
 
     public String getAppDomain() {
         return appDomain;
@@ -17,5 +18,13 @@ public class RequestEntityMap extends RequestEntity {
 
     public void setAppDomain(String appDomain) {
         this.appDomain = appDomain;
+    }
+
+    public String getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(String cityId) {
+        this.cityId = cityId;
     }
 }

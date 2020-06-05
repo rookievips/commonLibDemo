@@ -1,4 +1,4 @@
-package com.chen.commonlib;
+package com.chen.commonlib.frag;
 
 import android.view.View;
 

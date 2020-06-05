@@ -24,11 +24,6 @@ public abstract class AbsMvpFragment<P extends BasePresenter> extends BaseMvpFra
     }
 
     @Override
-    public void invalidToken() {
-        getFragActivity().invalidToken();
-    }
-
-    @Override
     public void onDestroyView() {
         unbinder.unbind();
         super.onDestroyView();

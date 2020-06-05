@@ -13,17 +13,16 @@ import android.widget.Button;
 import com.chen.api.http.ResponseEntity;
 import com.chen.api.utils.FileUtil;
 import com.chen.api.utils.PhotoCore;
-import com.chen.api.utils.ToastUtil;
-import com.chen.commonlib.ListActivity;
 import com.chen.commonlib.R;
 import com.chen.commonlib.app.AbsMvpActivity;
 import com.chen.commonlib.app.Cmd;
 import com.chen.commonlib.app.RequestEntityMap;
 import com.chen.commonlib.app.retrofit.Http;
 import com.chen.commonlib.app.retrofit.HttpCallback;
-import com.chen.commonlib.app.retrofit.SubscriberCallback;
+import com.chen.commonlib.app.retrofit.ObserverCallback;
 import com.chen.commonlib.ui.login.contact.LoginContact;
 import com.chen.commonlib.ui.login.presenter.LoginPresenterImp;
+import com.chen.commonlib.ui.main.view.ListActivity;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.File;
@@ -31,8 +30,8 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class LoginActivity extends AbsMvpActivity<LoginPresenterImp> implements LoginContact.LoginView, PhotoCore.PhotoResult {
     private PhotoCore photoCore;
@@ -54,7 +53,7 @@ public class LoginActivity extends AbsMvpActivity<LoginPresenterImp> implements 
 
     @Override
     protected void initView() {
-        commonTitleBarStyle("主页");
+        commonTitleBarStyle("登录页");
         photoCore = new PhotoCore(this, this);
 
         request.setOnClickListener(new View.OnClickListener() {
@@ -62,12 +61,11 @@ public class LoginActivity extends AbsMvpActivity<LoginPresenterImp> implements 
             public void onClick(View v) {
 //                RequestEntityMap re = new RequestEntityMap();
 //                re.setCmd(Cmd.CMD_LOGIN);
-//                re.putParameter("clientSecret","purchase-android-secret");
-//                re.putParameter("scope","purchase-android");
-//                re.putParameter("clientId","purchase-android");
-//                re.putParameter("password","123456");
-//                re.putParameter("username","18616896628");
-//                showLoading();
+//                re.putParameter("domain","APP");
+//                re.putParameter("part","PURCHASE");
+//                re.putParameter("businessName","100000362");
+//                re.putParameter("password","Ab123456");
+//                re.putParameter("username","15021998606");
 //                mPresenter.login(re);
                 login();
             }
@@ -85,8 +83,10 @@ public class LoginActivity extends AbsMvpActivity<LoginPresenterImp> implements 
         if (!checkPermission(Manifest.permission.CAMERA) || !checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             requestPermission(1, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         } else {
-            ToastUtil.showShort("相机权限已打开");
+//            ToastUtil.showShort("相机权限已打开");
         }
+
+//        ToastUtil.showShort(getIntent().getStringExtra("msg"));
     }
 
 
@@ -99,44 +99,36 @@ public class LoginActivity extends AbsMvpActivity<LoginPresenterImp> implements 
     private void login() {
         RequestEntityMap re = new RequestEntityMap();
         re.setCmd(Cmd.CMD_LOGIN);
-        re.putParameter("clientSecret","purchase-android-secret");
-        re.putParameter("scope","purchase-android");
-        re.putParameter("clientId","purchase-android");
-        re.putParameter("password","123456");
-        re.putParameter("username","18616896628");
-        showLoading();
+        re.putParameter("domain","APP");
+        re.putParameter("part","PURCHASE");
+        re.putParameter("businessName","100000362");
+        re.putParameter("password","Ab123456");
+        re.putParameter("username","15021998603");
+
         Http.getDefault().login(re)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SubscriberCallback<>(new HttpCallback<ResponseEntity<Map<String, Object>>>() {
+                .subscribe(new ObserverCallback<>(new HttpCallback<ResponseEntity<Map<String, Object>>>() {
+                    @Override
+                    public void onStart() {
+                        showLoading();
+                    }
 
                     @Override
-                    public void onResponse(ResponseEntity<Map<String, Object>> responseEntity) {
+                    public void onSuccess(ResponseEntity<Map<String, Object>> responseEntity) {
                         System.out.println();
                     }
 
                     @Override
-                    public void onResponseError(int errorCode, String msg) {
-
-                    }
-
-                    @Override
-                    public void onInvalidToken() {
-                        invalidToken();
-                    }
-
-                    @Override
-                    public void onFailed(int failCode, String msg) {
+                    public void onFail(int code, String msg) {
                         hideLoading();
                     }
-
 
                     @Override
                     public void onComplete() {
                         hideLoading();
                     }
                 }));
-
     }
 
     @Override
@@ -153,13 +145,13 @@ public class LoginActivity extends AbsMvpActivity<LoginPresenterImp> implements 
                 if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     setupPermission(mActivity, "相机", "相机功能");
                 } else {
-                    ToastUtil.showShort("相机权限已打开");
+//                    ToastUtil.showShort("相机权限已打开");
                 }
 
                 if (grantResults[1] != PackageManager.PERMISSION_GRANTED) {
                     setupPermission(mActivity, "媒体文件", "存储");
                 } else {
-                    ToastUtil.showShort("文件存储权限已打开");
+//                    ToastUtil.showShort("文件存储权限已打开");
                 }
                 break;
         }
@@ -206,4 +198,5 @@ public class LoginActivity extends AbsMvpActivity<LoginPresenterImp> implements 
     public void onReUpload(String curImgPath) {
 
     }
+
 }

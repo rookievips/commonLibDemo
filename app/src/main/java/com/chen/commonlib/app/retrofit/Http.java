@@ -4,9 +4,9 @@ import android.util.SparseArray;
 
 import com.chen.api.base.BaseApplication;
 import com.chen.api.helper.UserHelper;
+import com.chen.api.http.RequestEntity;
 import com.chen.commonlib.app.Cmd;
 import com.chen.commonlib.app.Constant;
-import com.chen.api.http.RequestEntity;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -23,8 +23,7 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okio.Buffer;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 
 @SuppressWarnings("all")
@@ -34,9 +33,7 @@ public class Http {
     //缓存有效时长60秒可读取 单位:秒
     private static final int MAX_AGE = 60;
     //默认请求方式
-    private static final int DEFAULT_HOST = 0;
-    //自定义请求方式可以根据需要添加
-    private static final int CUSTOM_HOST_ONE = 1;
+    private static final int DEFAULT_HOST = 1;
 
     private Retrofit retrofit;
     private HttpStores httpStores;
@@ -46,7 +43,7 @@ public class Http {
     //缓存文件设置，大小：10M
     private static Cache cache = new Cache(new File(BaseApplication.getBaseAppContext().getCacheDir(), "retrofit"), 1024 * 1024 * 10);
 
-    private Http(int hostType, String baseUrl) {
+    private Http(String baseUrl) {
         //log日志拦截器
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -59,14 +56,17 @@ public class Http {
             return chain.proceed(request);
         };
 
-        //Token拦截器
+        //token拦截器
         Interceptor tokenInterceptor = chain -> {
             HttpUrl oldHttpUrl = chain.request().url();
             HttpUrl newHttpUrl = null;
 
             RequestBody requestBody = chain.request().body();
             if (UserHelper.getToken() != null && requestBody != null) {
-                boolean noToken = noToken(requestBody, Cmd.CMD_LOGIN);//不需要token的接口在这里添加就好了
+                boolean noToken = noToken(
+                        requestBody,
+                        Cmd.CMD_LOGIN
+                );//不需要token的接口在这里添加就好了
                 if (!noToken) {
                     newHttpUrl = oldHttpUrl.newBuilder().addQueryParameter("access_token", UserHelper.getToken()).build();
                 }
@@ -99,30 +99,12 @@ public class Http {
                 .cache(cache)
                 .build();
 
-        OkHttpClient okHttpClientCustom = new OkHttpClient.Builder()
-                .readTimeout(TIME_OUT, TimeUnit.SECONDS)
-                .writeTimeout(TIME_OUT, TimeUnit.SECONDS)
-                .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
-                .addInterceptor(loggingInterceptor)
-                .addNetworkInterceptor(cacheInterceptor)
-                .cache(cache)
+        retrofit = new Retrofit.Builder()
+                .client(okHttpClientDefault)
+                .addConverterFactory(CusGsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(baseUrl)
                 .build();
-
-        if (hostType == DEFAULT_HOST) {
-            retrofit = new Retrofit.Builder()
-                    .client(okHttpClientDefault)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .baseUrl(baseUrl)
-                    .build();
-        } else {
-            retrofit = new Retrofit.Builder()
-                    .client(okHttpClientCustom)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .baseUrl(baseUrl)
-                    .build();
-        }
 
         httpStores = retrofit.create(HttpStores.class);
     }
@@ -150,36 +132,13 @@ public class Http {
         return false;
     }
 
-    /**
-     * 默认方式
-     *
-     * @return
-     */
     public static HttpStores getDefault() {
         Http http = retrofitManager.get(DEFAULT_HOST);
         if (http == null) {
-            http = new Http(DEFAULT_HOST, Constant.HOST);
+            http = new Http(Constant.HOST);
             retrofitManager.put(DEFAULT_HOST, http);
         }
 //        LogUtil.i("retrofitSize:",retrofitManager.size() + "");
         return http.httpStores;
     }
-
-    /**
-     * 自定义方式
-     *
-     * @param hostType 根据需要自己添加hostType，需要几个就可以添加几个
-     * @param baseUrl
-     * @return
-     */
-    public static HttpStores getCustom(int hostType, String baseUrl) {
-        Http http = retrofitManager.get(hostType);
-        if (http == null) {
-            http = new Http(hostType, baseUrl);
-            retrofitManager.put(hostType, http);
-        }
-//        LogUtil.i("retrofitSize:",retrofitManager.size() + "");
-        return http.httpStores;
-    }
-
 }

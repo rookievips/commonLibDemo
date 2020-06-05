@@ -2,13 +2,12 @@ package com.chen.commonlib.app.retrofit;
 
 
 public interface HttpCallback<T> {
-    void onResponse(T responseEntity);
 
-    void onResponseError(int errorCode, String msg);
+    void onStart();
 
-    void onInvalidToken();
+    void onSuccess(T responseEntity);
 
-    void onFailed(int failCode, String msg);
+    void onFail(int code, String msg);
 
     void onComplete();
 }

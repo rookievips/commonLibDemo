@@ -5,7 +5,7 @@ import com.chen.api.http.RequestEntity;
 import com.chen.api.http.ResponseEntity;
 import com.chen.commonlib.app.retrofit.Http;
 import com.chen.commonlib.app.retrofit.HttpCallback;
-import com.chen.commonlib.app.retrofit.SubscriberCallback;
+import com.chen.commonlib.app.retrofit.ObserverCallback;
 import com.chen.commonlib.ui.login.contact.LoginContact;
 
 import java.util.Map;
@@ -18,29 +18,21 @@ import java.util.Map;
 public class LoginPresenterImp extends LoginContact.Presenter {
     @Override
     public void login(RequestEntity requestEntity) {
-        addSubscribe(Http.getDefault().login(requestEntity),new SubscriberCallback<>(new HttpCallback<ResponseEntity<Map<String,Object>>>() {
+        addSubscribe(Http.getDefault().login(requestEntity),new ObserverCallback<>(new HttpCallback<ResponseEntity<Map<String,Object>>>() {
+            @Override
+            public void onStart() {
+                baseView.showLoading();
+            }
 
             @Override
-            public void onResponse(ResponseEntity<Map<String, Object>> responseEntity) {
-                if (isSuccess(responseEntity.getStatusCode())) {
-                    if (responseEntity.getResponse() != null) {
-                        ((LoginContact.LoginView)baseView).loginSuccess(responseEntity.getResponse());
-                    }
+            public void onSuccess(ResponseEntity<Map<String, Object>> responseEntity) {
+                if (responseEntity.getResponse() != null) {
+                    ((LoginContact.LoginView)baseView).loginSuccess(responseEntity.getResponse());
                 }
             }
 
             @Override
-            public void onResponseError(int errorCode, String msg) {
-
-            }
-
-            @Override
-            public void onInvalidToken() {
-                baseView.invalidToken();
-            }
-
-            @Override
-            public void onFailed(int failCode, String msg) {
+            public void onFail(int code, String msg) {
                 baseView.hideLoading();
             }
 

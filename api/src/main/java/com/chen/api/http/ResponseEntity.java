@@ -4,9 +4,9 @@ public class ResponseEntity<T> {
 
     private String serverTime;
     private int statusCode;
+    private String message;
 
     private T response;
-    private ResponseError error;
 
     public String getServerTime() {
         return serverTime;
@@ -24,6 +24,14 @@ public class ResponseEntity<T> {
         this.statusCode = statusCode;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public T getResponse() {
         return response;
     }
@@ -32,21 +40,13 @@ public class ResponseEntity<T> {
         this.response = response;
     }
 
-    public ResponseError getError() {
-        return error;
-    }
-
-    public void setError(ResponseError error) {
-        this.error = error;
-    }
-
     @Override
     public String toString() {
         return "ResponseEntity{" +
                 "serverTime='" + serverTime + '\'' +
                 ", statusCode=" + statusCode +
+                ", message='" + message + '\'' +
                 ", response=" + response +
-                ", error=" + error +
                 '}';
     }
 }

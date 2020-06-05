@@ -46,9 +46,9 @@ dependencies {
     //RxJava + Retrofit + OkHttp
     api "com.squareup.retrofit2:retrofit:${RETROFIT}"
     api "com.squareup.retrofit2:converter-gson:${RETROFIT}"
-    api "com.squareup.retrofit2:adapter-rxjava:${RETROFIT}"
-    api "io.reactivex:rxjava:${RXJAVA}"
-    api "io.reactivex:rxandroid:${RXANDROID}"
+    api "com.squareup.retrofit2:adapter-rxjava2:${RETROFIT}"
+    api "io.reactivex.rxjava2:rxjava:${RXJAVA}"
+    api "io.reactivex.rxjava2:rxandroid:${RXANDROID}"
     api "com.squareup.okhttp3:okhttp:${OKHTTP}"
     api "com.squareup.okhttp3:logging-interceptor:${OKHTTP}"
     //RoundedImageView

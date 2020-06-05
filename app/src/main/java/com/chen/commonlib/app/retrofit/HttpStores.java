@@ -3,12 +3,17 @@ package com.chen.commonlib.app.retrofit;
 
 import com.chen.api.http.RequestEntity;
 import com.chen.api.http.ResponseEntity;
+import com.chen.commonlib.app.RequestEntityMap;
 
 import java.util.Map;
 
+import io.reactivex.Observable;
 import retrofit2.http.Body;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
-import rx.Observable;
+import retrofit2.http.Url;
 
 /**
  * Author: Chen
@@ -23,9 +28,31 @@ public interface HttpStores {
      * @param requestEntity
      * @return
      */
-    @POST("/api/purchase")
+    @POST("/purchase/cgi")
     Observable<ResponseEntity<Map<String, Object>>> login(
             @Body RequestEntity requestEntity
     );
+
+    @POST
+    Observable<ResponseEntity<Map<String, Object>>> getData(
+            @Body RequestEntityMap requestEntityMap,
+            @Url String url
+    );
+
+
+    @FormUrlEncoded
+    @POST
+    @Headers("Content-Type:application/x-www-form-urlencoded;charset=utf-8")
+    Observable<Map<String,Object>> test(
+            @Url String url,
+            @FieldMap Map<String,String> params
+    );
+
+    @POST
+    Observable<Map<String,Object>> test1(
+            @Url String url,
+            @Body Map<String,String> params
+    );
+
 
 }

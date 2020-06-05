@@ -1,4 +1,4 @@
-package com.chen.commonlib;
+package com.chen.commonlib.ui.main.view;
 
 
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +12,7 @@ import com.chen.api.ptr.PtrDefaultHandler;
 import com.chen.api.ptr.PtrFrameLayout;
 import com.chen.api.ptr.PtrHandler;
 import com.chen.api.widgets.MultiStateView;
+import com.chen.commonlib.R;
 import com.chen.commonlib.adapter.viewbinder.MessageViewBinder;
 import com.chen.commonlib.app.AbsActivity;
 import com.chen.api.http.RequestEntity;
