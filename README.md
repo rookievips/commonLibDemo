@@ -12,7 +12,10 @@
 
 #历史版本
 
-#latest version 1.1
+#latest version 2.0
+
+#v2.0
+基类优化与网络框架优化
 
 #v1.1
 图片裁剪优化
